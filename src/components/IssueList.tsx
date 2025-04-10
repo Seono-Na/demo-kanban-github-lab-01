@@ -1,9 +1,8 @@
-// src/components/IssueList.tsx
 import { useEffect, useState } from 'react';
 
-import { getIssues } from '@/api/github';
+import { getIssues } from '@/api/issueApi';
 import { Skeleton } from '@/shared/components/ui/skeleton';
-import { Issue } from '@/types/github';
+import { Issue } from '@/types/githubTypes';
 
 import { IssueCard } from './IssueCard';
 
