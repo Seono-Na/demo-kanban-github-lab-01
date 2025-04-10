@@ -1,23 +1,18 @@
 ---
-# 📝 Nettee Kanban
+# 📝 Nettee Kanban Github Lab
 ---
 
 ### 📢 소개
 
-Nettee 팀의 생산성과 협업 효율을 높이기 위한 실사용 목적의 칸반 보드입니다.🚀
-
-최신 프론트엔드 기술 스택을 기반으로, 향후 기능 확장과 유지보수가 용이하도록 구조화된 형태로 구성되어 있으며,
-
-팀 내 작업에서 직접 사용될 예정입니다.
+Nettee Kanban에 연동할 Github REST API를 확인할 실험실입니다.
 
 ---
 
 ### 🚧 향후 계획
 
-- 칸반 보드 컬럼 및 카드 UI 개발
-- 드래그 앤 드롭 기능 구현
-- github 연동
-- 데이터 퍼시스턴스 연결 (e.g., Supabase, Firebase 등)
+- 간단한 todo ui 구성
+- github api를 이용해 issues와 todo를 연동
+- rate limit 확인
 
 ---
 
