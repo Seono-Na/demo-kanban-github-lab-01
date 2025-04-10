@@ -1,47 +1,52 @@
+// src/components/IssueList.tsx
 import { useEffect, useState } from 'react';
 
 import { getIssues } from '@/api/github';
+import { Skeleton } from '@/shared/components/ui/skeleton';
+import { Issue } from '@/types/github';
 
-type Issue = {
-  id: number;
-  title: string;
-  state: 'open' | 'closed';
-  number: number;
-  user: {
-    login: string;
-  };
-};
+import { IssueCard } from './IssueCard';
 
 export function IssueList() {
   const [issues, setIssues] = useState<Issue[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    (async () => {
+    const fetchIssues = async () => {
       try {
         const data = await getIssues();
         setIssues(data);
-      } catch (err) {
-        console.error(err);
+      } catch (e) {
+        console.error('Failed to fetch issues', e);
       } finally {
         setLoading(false);
       }
-    })();
+    };
+
+    fetchIssues();
   }, []);
 
-  if (loading) return <p>불러오는 중...</p>;
+  if (loading) {
+    return (
+      <div className="space-y-4">
+        {[...Array(3)].map((_, i) => (
+          <Skeleton key={i} className="h-24 rounded-xl" />
+        ))}
+      </div>
+    );
+  }
 
   return (
-    <ul className="space-y-2">
+    <div>
       {issues.map((issue) => (
-        <li key={issue.id} className="rounded-lg border p-4 shadow-sm">
-          <p className="font-bold">
-            #{issue.number} - {issue.title}
-          </p>
-          <p className="text-sm text-gray-500">작성자: {issue.user.login}</p>
-          <p className="text-sm text-gray-400">상태: {issue.state}</p>
-        </li>
+        <IssueCard
+          key={issue.id}
+          title={issue.title}
+          number={issue.number}
+          user={issue.user.login}
+          state={issue.state}
+        />
       ))}
-    </ul>
+    </div>
   );
 }
