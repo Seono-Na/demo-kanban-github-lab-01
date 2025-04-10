@@ -1,17 +1,12 @@
-const GITHUB_API = 'https://api.github.com';
-const REPO_OWNER = 'nettee-space'; // organization 이름
-const REPO_NAME = 'frontend-sample-monorepo-simple-crud'; // 레포 이름
+import { Issue } from '@/types/githubTypes';
 
-const headers = {
-  Authorization: `Bearer ${import.meta.env.VITE_GITHUB_PAT}`,
-  Accept: 'application/vnd.github+json',
-};
+import { httpClient } from './httpClient';
 
-export const getIssues = async () => {
-  const response = await fetch(
-    `${GITHUB_API}/repos/${REPO_OWNER}/${REPO_NAME}/issues`,
-    { headers }
-  );
-  if (!response.ok) throw new Error('이슈를 불러오는데 실패했어요.');
-  return response.json();
+const BASE_URL = 'https://api.github.com';
+const REPO_OWNER = 'nettee-org';
+const REPO_NAME = 'demo-kanban-github-lab';
+
+export const getIssues = () => {
+  const url = `${BASE_URL}/repos/${REPO_OWNER}/${REPO_NAME}/issues`;
+  return httpClient<Issue[]>(url);
 };
