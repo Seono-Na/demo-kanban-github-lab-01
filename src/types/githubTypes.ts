@@ -27,6 +27,9 @@ export interface Milestone {
   description: string;
   due_on: string;
   html_url: string;
+  state: 'open' | 'closed';
+  open_issues: number;
+  closed_issues: number;
 }
 export interface IssueDetail {
   id: number;
