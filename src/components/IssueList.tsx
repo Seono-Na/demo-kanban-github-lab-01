@@ -1,11 +1,10 @@
+import { getIssues } from '@api/issueApi';
+import { IssueDetailModal } from '@components/issue/IssueDetailModal';
+import { Skeleton } from '@shared/shadcn/ui/skeleton';
+import { Issue } from '@type/githubTypes';
 import { useEffect, useState } from 'react';
 
-import { getIssues } from '@/api/issueApi';
-import { Skeleton } from '@/shared/components/ui/skeleton';
-import { Issue } from '@/types/githubTypes';
-
 import { IssueCard } from './IssueCard';
-import { IssueDetailModal } from './IssueDetailModal';
 
 export function IssueList() {
   const [issues, setIssues] = useState<Issue[]>([]);
