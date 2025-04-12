@@ -5,10 +5,14 @@ import { Skeleton } from '@/shared/components/ui/skeleton';
 import { Issue } from '@/types/githubTypes';
 
 import { IssueCard } from './IssueCard';
+import { IssueDetailModal } from './IssueDetailModal';
 
 export function IssueList() {
   const [issues, setIssues] = useState<Issue[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedIssueNumber, setSelectedIssueNumber] = useState<number | null>(
+    null
+  );
 
   useEffect(() => {
     const fetchIssues = async () => {
@@ -25,6 +29,14 @@ export function IssueList() {
     fetchIssues();
   }, []);
 
+  const handleCardClick = (issueNumber: number) => {
+    setSelectedIssueNumber(issueNumber);
+  };
+
+  const closeModal = () => {
+    setSelectedIssueNumber(null);
+  };
+
   if (loading) {
     return (
       <div className="space-y-4">
@@ -38,14 +50,22 @@ export function IssueList() {
   return (
     <div>
       {issues.map((issue) => (
-        <IssueCard
-          key={issue.id}
-          title={issue.title}
-          number={issue.number}
-          user={issue.user.login}
-          state={issue.state}
-        />
+        <div key={issue.id} onClick={() => handleCardClick(issue.number)}>
+          <IssueCard
+            title={issue.title}
+            number={issue.number}
+            user={issue.user.login}
+            state={issue.state}
+          />
+        </div>
       ))}
+
+      {selectedIssueNumber && (
+        <IssueDetailModal
+          issueNumber={selectedIssueNumber}
+          onClose={closeModal}
+        />
+      )}
     </div>
   );
 }
