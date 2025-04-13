@@ -109,7 +109,7 @@ export default tseslint.config(
 
   // react-refresh 관련 예외 처리 (shadcn UI 컴포넌트 경로)
   {
-    files: ['src/shared/components/ui/**/*.tsx'], // shadcn UI 폴더 예외 처리
+    files: ['src/shared/shadcn/ui/**/*.tsx'], // shadcn UI 폴더 예외 처리
     rules: {
       'react-refresh/only-export-components': 'off', // 해당 폴더 내에서 규칙 비활성화
     },
