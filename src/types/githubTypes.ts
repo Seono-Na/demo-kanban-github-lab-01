@@ -43,3 +43,10 @@ export interface IssueDetail {
   assignees: GitHubUser[];
   milestone: Milestone | null;
 }
+export interface GitHubRateLimit {
+  rate: {
+    limit: number;
+    remaining: number;
+    reset: number;
+  };
+}
