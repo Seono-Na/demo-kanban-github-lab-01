@@ -24,21 +24,31 @@ type Props = {
 export function IssueDetailModal({ issueNumber, onClose }: Props) {
   const [issue, setIssue] = useState<IssueDetail | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchDetail = async () => {
       try {
+        if (isNaN(issueNumber)) {
+          throw new Error('올바르지 않은 이슈 번호입니다.');
+        }
+
         const data = await getIssueDetail(issueNumber);
         setIssue(data);
       } catch (error) {
         console.error('이슈 상세 정보를 가져오는 데 실패했습니다.', error);
+        setError('이슈를 불러올 수 없습니다.');
+
+        setTimeout(() => {
+          onClose(); // navigate('/') 또는 홈으로 이동
+        }, 2000);
       } finally {
         setLoading(false);
       }
     };
 
     fetchDetail();
-  }, [issueNumber]);
+  }, [issueNumber, onClose]);
 
   return (
     <Dialog open={true} onOpenChange={onClose}>
@@ -66,9 +76,11 @@ export function IssueDetailModal({ issueNumber, onClose }: Props) {
           )}
         </DialogHeader>
 
-        {loading || !issue ? (
-          <Skeleton className="h-48 rounded-xl" />
-        ) : (
+        {loading && <Skeleton className="h-48 rounded-xl" />}
+
+        {error && <p className="mt-4 text-sm text-red-500">{error}</p>}
+
+        {!loading && !error && issue && (
           <>
             <div className="my-4 text-sm whitespace-pre-wrap">
               {issue.body ? (
