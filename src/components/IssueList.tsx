@@ -3,15 +3,16 @@ import { IssueDetailModal } from '@components/issue/IssueDetailModal';
 import { Skeleton } from '@shared/shadcn/ui/skeleton';
 import { Issue } from '@type/githubTypes';
 import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { IssueCard } from './IssueCard';
 
 export function IssueList() {
   const [issues, setIssues] = useState<Issue[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedIssueNumber, setSelectedIssueNumber] = useState<number | null>(
-    null
-  );
+
+  const navigate = useNavigate();
+  const { issueNumber } = useParams<{ issueNumber?: string }>();
 
   useEffect(() => {
     const fetchIssues = async () => {
@@ -29,11 +30,11 @@ export function IssueList() {
   }, []);
 
   const handleCardClick = (issueNumber: number) => {
-    setSelectedIssueNumber(issueNumber);
+    navigate(`/issues/${issueNumber}`);
   };
 
   const closeModal = () => {
-    setSelectedIssueNumber(null);
+    navigate('/');
   };
 
   if (loading) {
@@ -59,9 +60,9 @@ export function IssueList() {
         </div>
       ))}
 
-      {selectedIssueNumber && (
+      {issueNumber && (
         <IssueDetailModal
-          issueNumber={selectedIssueNumber}
+          issueNumber={Number(issueNumber)}
           onClose={closeModal}
         />
       )}
