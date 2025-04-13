@@ -1,4 +1,4 @@
-import { Issue, IssueDetail } from '@/types/githubTypes';
+import { Issue, IssueDetail } from '@type/githubTypes';
 
 import { httpClient } from './httpClient';
 

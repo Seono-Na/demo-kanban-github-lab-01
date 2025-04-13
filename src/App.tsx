@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 
-import { IssueList } from '@/components/IssueList';
+import { IssueList } from '@components/IssueList';
 
 export function App() {
   return (
