@@ -12,6 +12,7 @@ export function App() {
         <Routes>
           <Route path="/" element={<IssueList />} />
           <Route path="/issues/:issueNumber" element={<IssueList />} />
+          <Route path="/issues/new" element={<IssueList />} />
         </Routes>
       </main>
     </>
