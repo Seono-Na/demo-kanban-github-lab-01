@@ -2,24 +2,11 @@ const BASE_URL = 'https://api.github.com';
 const REPO_OWNER = 'Seono-Na';
 const REPO_NAME = 'demo-issue-api-playground';
 
-const buildRepoPath = (path: string) =>
-  `${BASE_URL}/repos/${REPO_OWNER}/${REPO_NAME}${path}`;
+const buildRepoPath = (path: string) => {
+  return `${BASE_URL}/repos/${REPO_OWNER}/${REPO_NAME}${path}`;
+};
 
-const createUrl = (path: string, isRepoScoped: boolean) =>
-  isRepoScoped ? buildRepoPath(path) : `${BASE_URL}${path}`;
-
-const createRequestOptions = (method: string, body?: unknown): RequestInit => ({
-  method,
-  body: body ? JSON.stringify(body) : undefined,
-});
-
-const request = async <T>(
-  path: string,
-  options?: RequestInit,
-  isRepoScoped = true
-): Promise<T> => {
-  const url = createUrl(path, isRepoScoped);
-
+const request = async <T>(url: string, options?: RequestInit): Promise<T> => {
   const response = await fetch(url, {
     ...options,
     headers: {
@@ -38,11 +25,19 @@ const request = async <T>(
 
 export const httpClient = {
   get: <T>(path: string, isRepoScoped = true) =>
-    request<T>(path, undefined, isRepoScoped),
+    request<T>(isRepoScoped ? buildRepoPath(path) : path),
   post: <T>(path: string, body?: unknown, isRepoScoped = true) =>
-    request<T>(path, createRequestOptions('POST', body), isRepoScoped),
+    request<T>(isRepoScoped ? buildRepoPath(path) : path, {
+      method: 'POST',
+      body: body ? JSON.stringify(body) : undefined,
+    }),
   patch: <T>(path: string, body?: unknown, isRepoScoped = true) =>
-    request<T>(path, createRequestOptions('PATCH', body), isRepoScoped),
+    request<T>(isRepoScoped ? buildRepoPath(path) : path, {
+      method: 'PATCH',
+      body: body ? JSON.stringify(body) : undefined,
+    }),
   delete: <T>(path: string, isRepoScoped = true) =>
-    request<T>(path, createRequestOptions('DELETE'), isRepoScoped),
+    request<T>(isRepoScoped ? buildRepoPath(path) : path, {
+      method: 'DELETE',
+    }),
 };
