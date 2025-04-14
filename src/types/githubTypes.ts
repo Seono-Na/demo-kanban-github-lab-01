@@ -50,3 +50,10 @@ export interface GitHubRateLimit {
     reset: number;
   };
 }
+
+export interface CreateIssueParams {
+  title: string;
+  body?: string;
+  labels?: string[];
+  assignees?: string[];
+}
